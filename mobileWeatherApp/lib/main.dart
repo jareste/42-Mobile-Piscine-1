@@ -57,6 +57,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _index = 0;
   final _pageController = PageController();
+  String _midText = '';
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +75,24 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                controller: _controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter a location...'
                 ),
+                onChanged: (value) {
+                  _midText = value;
+                  setState(() {});
+                },
               ),
             ),
             IconButton(
               icon: Icon(Icons.location_on),
-              onPressed: () {},
+              onPressed: () {
+                _midText = 'Geolocated';
+                _controller.clear();
+                setState(() {});
+              },
             ),
           ],
         ),
@@ -94,9 +105,33 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         children: <Widget>[
-          Center(child: Text('Currently')),
-          Center(child: Text('Today')),
-          Center(child: Text('Weekly')),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Currently', style: TextStyle(fontSize: 56, color: Colors.lightBlueAccent),),
+                Text(_midText, style: TextStyle(fontSize: 10, color: Colors.redAccent),),
+              ],
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Today', style: TextStyle(fontSize: 24, color: Colors.purple),),
+                Text(_midText, style: TextStyle(fontSize: 24, color: Colors.purple),),
+              ],
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Weekly', style: TextStyle(fontSize: 10, color: Colors.red),),
+                Text(_midText, style: TextStyle(fontSize: 56, color: Colors.lightBlueAccent)),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
